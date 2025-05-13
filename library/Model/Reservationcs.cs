@@ -1,6 +1,6 @@
 ﻿namespace OneBeyondApi.Model
 {
-    public class Reservationcs
+    public class Reservation
     {
         public int Id { get; set; }
         public int BorrowerId { get; set; }
