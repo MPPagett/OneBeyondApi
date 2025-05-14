@@ -10,3 +10,7 @@
 /library/obj
 /library/OneBeyondApi.csproj.user
 /library/.vs/OneBeyondApi/DesignTimeBuild/.dtbcache.v2
+/library/bin/Debug/net8.0
+/LibraryTests/bin/Debug/net8.0
+/LibraryTests/obj/Debug/net8.0
+/LibraryTests/obj

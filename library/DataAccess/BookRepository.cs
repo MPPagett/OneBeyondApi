@@ -4,27 +4,23 @@ namespace OneBeyondApi.DataAccess
 {
     public class BookRepository : IBookRepository
     {
-        public BookRepository()
+        private readonly LibraryContext _context;
+
+        public BookRepository(LibraryContext context)
         {
+            _context = context;
         }
+
         public List<Book> GetBooks()
         {
-            using (var context = new LibraryContext())
-            {
-                var list = context.Books
-                    .ToList();
-                return list;
-            }
+            return _context.Books.ToList();
         }
 
         public Guid AddBook(Book book)
         {
-            using (var context = new LibraryContext())
-            {
-                context.Books.Add(book);
-                context.SaveChanges();
-                return book.Id;
-            }
+            _context.Books.Add(book);
+            _context.SaveChanges();
+            return book.Id;
         }
     }
 }

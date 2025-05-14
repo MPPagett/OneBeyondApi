@@ -2,9 +2,9 @@
 {
     public class Reservation
     {
-        public int Id { get; set; }
-        public int BorrowerId { get; set; }
-        public int BookId { get; set; }
+        public Guid Id { get; set; }
+        public Guid BorrowerId { get; set; }
+        public Guid BookId { get; set; }
         public DateTime ReservedDate { get; set; }
 
         public Borrower Borrower { get; set; } = default!;
