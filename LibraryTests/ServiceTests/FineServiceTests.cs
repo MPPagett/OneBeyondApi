@@ -3,7 +3,7 @@ using OneBeyondApi.DataAccess;
 using OneBeyondApi.Model;
 using OneBeyondApi.Services;
 
-namespace LibraryTests
+namespace LibraryTests.ServiceTests
 {
     public class FineServiceTests
     {

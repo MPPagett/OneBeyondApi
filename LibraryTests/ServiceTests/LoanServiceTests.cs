@@ -5,7 +5,7 @@ using OneBeyondApi.Model;
 using OneBeyondApi.Services;
 using OneBeyondApi.Services.Interfaces;
 
-namespace LibraryTests
+namespace LibraryTests.ServiceTests
 {
     public class LoanServiceTests
     {

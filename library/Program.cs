@@ -1,6 +1,10 @@
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using OneBeyondApi;
 using OneBeyondApi.DataAccess;
+using OneBeyondApi.Model.Dtos;
+using OneBeyondApi.Model;
+using OneBeyondApi.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +20,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<LibraryContext>(options => options.UseInMemoryDatabase("LibraryDb"));
 builder.Services.AddTransient<SeedData>();
+
+builder.Services.AddScoped<IValidator<ReserveBookRequestDto>, ReserveBookRequestDtoValidator>();
+builder.Services.AddScoped<IValidator<ReturnBookRequestDto>, ReturnBookRequestDtoValidator>();
 
 var app = builder.Build();
 
