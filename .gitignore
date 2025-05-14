@@ -1,0 +1,16 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/library/obj/project.nuget.cache
+/library/.vs/OneBeyondApi/FileContentIndex
+/.vs/OneBeyondApi/v17
+/library/.vs/OneBeyondApi/v17
+/library/obj/Debug/net8.0
+/library/obj
+/library/OneBeyondApi.csproj.user
+/library/.vs/OneBeyondApi/DesignTimeBuild/.dtbcache.v2
+/library/bin/Debug/net8.0
+/LibraryTests/bin/Debug/net8.0
+/LibraryTests/obj/Debug/net8.0
+/LibraryTests/obj
