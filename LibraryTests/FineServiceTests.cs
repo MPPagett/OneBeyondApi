@@ -10,7 +10,7 @@ namespace LibraryTests
         private LibraryContext GetContext()
         {
             var options = new DbContextOptionsBuilder<LibraryContext>()
-                .UseInMemoryDatabase(Guid.NewGuid().ToString()) // Isolate test runs
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
             return new LibraryContext(options);

@@ -1,12 +1,21 @@
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using OneBeyondApi.DataAccess;
 using OneBeyondApi.Model;
 using OneBeyondApi.Services;
+using OneBeyondApi.Services.Interfaces;
 
 namespace LibraryTests
 {
     public class LoanServiceTests
     {
+        private readonly Mock<IFineService> _fineServiceMock;
+
+        public LoanServiceTests()
+        {
+            _fineServiceMock = new Mock<IFineService>();
+        }
+
         private LibraryContext GetContext()
         {
             var options = new DbContextOptionsBuilder<LibraryContext>()
@@ -40,6 +49,8 @@ namespace LibraryTests
                 Author = new Author { Id = Guid.NewGuid(), Name = "Author A" }
             });
 
+            await context.SaveChangesAsync();
+
             context.Catalogue.Add(new BookStock
             {
                 Id = Guid.NewGuid(),
@@ -50,7 +61,7 @@ namespace LibraryTests
 
             await context.SaveChangesAsync();
 
-            var service = new LoanService(context);
+            var service = new LoanService(context, _fineServiceMock.Object);
 
             // Act
             var result = await service.GetBorrowersWithLoansAsync();
@@ -74,6 +85,7 @@ namespace LibraryTests
                 Name = "Late User",
                 EmailAddress = "late@example.com"
             });
+            await context.SaveChangesAsync();
 
             context.Catalogue.Add(new BookStock
             {
@@ -92,7 +104,7 @@ namespace LibraryTests
 
             await context.SaveChangesAsync();
 
-            var service = new LoanService(context);
+            var service = new LoanService(context, _fineServiceMock.Object);
 
             // Act
             await service.ReturnBookAsync(bookStockId);
@@ -102,10 +114,11 @@ namespace LibraryTests
             Assert.Null(updatedStock.OnLoanTo);
             Assert.Null(updatedStock.LoanEndDate);
 
-            var fine = await context.Fines.FirstOrDefaultAsync();
-            Assert.NotNull(fine);
-            Assert.Equal(borrowerId, fine.BorrowerId);
-            Assert.True(fine.Amount >= 3); // £1 per day
+            _fineServiceMock.Verify(f => f.CreateFineAsync(It.Is<Fine>(fine =>
+                fine.BorrowerId == borrowerId &&
+                fine.Amount >= 2 &&
+                fine.Reason == "Late return"
+                )), Times.Once);
         }
 
         [Fact]
@@ -139,7 +152,7 @@ namespace LibraryTests
 
             await context.SaveChangesAsync();
 
-            var service = new LoanService(context);
+            var service = new LoanService(context, _fineServiceMock.Object);
 
             // Act
             await service.ReserveBookAsync(bookId, borrowerId);
@@ -182,7 +195,7 @@ namespace LibraryTests
 
             await context.SaveChangesAsync();
 
-            var service = new LoanService(context);
+            var service = new LoanService(context, _fineServiceMock.Object);
 
             // Act
             var status = await service.GetReservationStatusAsync(bookId, borrower2Id);

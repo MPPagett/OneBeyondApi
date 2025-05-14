@@ -13,9 +13,13 @@ namespace OneBeyondApi.Services
             _context = context;
         }
 
-        public Task CreateFineAsync(Fine fine)
+        public async Task CreateFineAsync(Fine fine)
         {
-            throw new NotImplementedException();
+            if (fine == null)
+                throw new ArgumentNullException(nameof(fine));
+
+            _context.Fines.Add(fine);
+            await _context.SaveChangesAsync();
         }
     }
 }
